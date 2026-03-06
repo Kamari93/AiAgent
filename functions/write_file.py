@@ -20,7 +20,7 @@ def write_file(working_directory, file_path, content):
     # ensure all parent directories of the file path exist
     directory = os.path.dirname(target_file)
 
-    #  Create the directory and any missing parent directories...If the necessary directory structure already exists, this will do nothing
+    # Create the directory and any missing parent directories...If the necessary directory structure already exists, this will do nothing
     if directory:
         os.makedirs(directory, exist_ok=True)
     
