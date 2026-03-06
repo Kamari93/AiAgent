@@ -29,5 +29,5 @@ def read_file_content(target_file, file_path):
                 content += f'[...File "{file_path}" truncated at {MAX_CHARS} characters]'
 
         return content
-    except (UnicodeDecodeError, PermissionError) as e:
+    except Exception as e:
         return f"Error reading {target_file}: {e}"
