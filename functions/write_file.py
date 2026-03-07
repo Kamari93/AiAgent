@@ -17,7 +17,7 @@ def write_file(working_directory, file_path, content):
     if os.path.isdir(target_file):
         return f'Error: Cannot write to "{file_path}" as it is a directory'
     
-    # ensure all parent directories of the file path exist
+    # Get the parent directory of a given path to ensure all parent directories of the file path exist
     directory = os.path.dirname(target_file)
 
     # Create the directory and any missing parent directories...If the necessary directory structure already exists, this will do nothing
