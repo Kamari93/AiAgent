@@ -44,7 +44,7 @@ def run_command_output(command, working_dir_abs_path):
 
         # build an output str based on the completed process
         output_str = ""
-        
+
         if completed_process.returncode != 0:
             output_str = f"Process exited with code {completed_process.returncode}"
         elif not completed_process.stdout and not completed_process.stderr:
