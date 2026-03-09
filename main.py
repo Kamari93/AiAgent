@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 from prompts import system_prompt
+from call_function import available_functions
 
 
 def main():
@@ -32,6 +33,7 @@ def generate_content(client, messages, verbose):
         model="gemini-2.5-flash",
         contents=messages,
         config=types.GenerateContentConfig(
+            tools=[available_functions],
             system_instruction=system_prompt,
             temperature=0) # temperature 0 for deterministic output, which is useful for testing and debugging
     )
@@ -42,8 +44,14 @@ def generate_content(client, messages, verbose):
         print("Prompt tokens:", response.usage_metadata.prompt_token_count)
         print("Response tokens:", response.usage_metadata.candidates_token_count)
 
-    print("Response:")
-    print(response.text)
+    if response.function_calls:
+        # print("Function calls in response:")
+        for func_call in response.function_calls:
+            print(f"Calling function: {func_call.name}({func_call.args})")
+
+    else:
+        print("Response:")
+        print(response.text)
 
 
 if __name__ == "__main__":

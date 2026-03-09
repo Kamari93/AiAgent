@@ -1,5 +1,6 @@
 import os
 import subprocess
+from google.genai import types
 
 def run_python_file(working_directory, file_path, args=None):
     working_dir_abs_path = os.path.abspath(working_directory)
@@ -61,3 +62,26 @@ def run_command_output(command, working_dir_abs_path):
 
     except Exception as e:
         return f"Error: executing Python file: {e}"
+    
+# Define the function schema for run_python_file to be used in the LLM's function calling capabilities
+schema_run_python_file = types.FunctionDeclaration(
+    name="run_python_file",
+    description="Executes a specified Python file with optional arguments, with guardrails to prevent execution of files outside the working directory and to ensure only Python files are executed",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="File path to the Python file to execute, relative to the working directory",
+            ),
+            "args": types.Schema(
+                type=types.Type.ARRAY,
+                items=types.Schema(
+                    type=types.Type.STRING,
+                ),
+                description="Optional list of string arguments to pass to the Python file when executing",
+            ),
+        },
+        required=["file_path"],
+    ),
+)

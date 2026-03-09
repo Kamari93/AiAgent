@@ -1,5 +1,6 @@
 import os
 from config import MAX_CHARS
+from google.genai import types
 
 def get_file_content(working_directory, file_path):
     working_dir_abs_path = os.path.abspath(working_directory)
@@ -31,3 +32,20 @@ def read_file_content(target_file, file_path):
         return content
     except Exception as e:
         return f"Error reading {target_file}: {e}"
+    
+
+# Define the function schema for get_file_content to be used in the LLM's function calling capabilities
+schema_get_file_content = types.FunctionDeclaration(
+    name="get_file_content",
+    description="Reads the content of a specified file relative to the working directory, with guardrails to prevent access to files outside the working directory and to limit file size",
+    parameters=types.Schema (
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="File path to read content from, relative to the working directory",
+            ),
+        },
+        required=["file_path"],
+    ),
+)
