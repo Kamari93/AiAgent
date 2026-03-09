@@ -33,7 +33,7 @@ def generate_content(client, messages, verbose):
         model="gemini-2.5-flash",
         contents=messages,
         config=types.GenerateContentConfig(
-            tools=[available_functions],
+            tools=[available_functions], # make the functions defined in call_function.py available for the LLM to call
             system_instruction=system_prompt,
             temperature=0) # temperature 0 for deterministic output, which is useful for testing and debugging
     )
