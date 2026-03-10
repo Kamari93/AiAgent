@@ -32,13 +32,13 @@ def call_function(function_call, verbose=False):
 
     if function_name not in function_map:
         return types.Content(
-    role="tool",
-    parts=[
-        types.Part.from_function_response(
-            name=function_name,
-            response={"error": f"Unknown function: {function_name}"},
-        )
-    ],
+        role="tool",
+        parts=[
+            types.Part.from_function_response(
+                name=function_name,
+                response={"error": f"Unknown function: {function_name}"},
+            )
+        ],
     )
 
     args = dict(function_call.args) if function_call.args else {}
@@ -48,11 +48,11 @@ def call_function(function_call, verbose=False):
     function_result = function_map[function_name](**args)
 
     return types.Content(
-    role="tool",
-    parts=[
-        types.Part.from_function_response(
-            name=function_name,
-            response={"result": function_result},
-        )
-    ],
+        role="tool",
+        parts=[
+            types.Part.from_function_response(
+                name=function_name,
+                response={"result": function_result},
+            )
+        ],
     )
